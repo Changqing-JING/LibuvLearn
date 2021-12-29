@@ -6,7 +6,7 @@ git clone https://github.com/libuv/libuv.git
 
 # Install Libuv
 
-## On linux
+## On Ubuntu
 ```shell
 cd libuv
 mkdir build
@@ -15,7 +15,15 @@ cmake ..
 make -j $(nproc)
 sudo make install
 ```
-
+## On Macos
+```shell
+cd libuv
+mkdir build
+cd build
+cmake ..
+make -j $(nproc)
+make install
+```
 ## On windows
 ```shell
 cd libuv
@@ -25,6 +33,8 @@ cmake -DCMAKE_BUILD_TYPE=DEBUG -DCMAKE_INSTALL_PREFIX=D:\libuv_x86  -A x64 ..
 cmake --build .
 cmake --install . --config Debug
 ```
+add environment vairalbe key: libuv_DIR, value: D:\libuv_x86
+
 Note: For release build, the "Debug" need to be replaced by "Release"
 
 ## Cross Compile for QNX on Linux
