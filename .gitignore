@@ -1,0 +1,5 @@
+.vscode
+build
+build_win
+build_win_arm
+build_qnx
