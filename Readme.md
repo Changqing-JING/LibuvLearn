@@ -49,8 +49,41 @@ make install
 ```
 
 ### Build app on qnx
+With pre installed libuv
 ```shell
 export libuv_DIR=/home/jcq/libuv_qnx
-cmake -DCMAKE_C_COMPILER=/home/jcq/workspace/qnx710/host/linux/x86_64/usr/bin/qcc -DCMAKE_CXX_COMPILER=/home/jcq/workspace/qnx710/host/linux/x86_64/usr/bin/q++ ..
+cmake -DUSE_PRE_INSTALLED_LIBUV=1 -DCMAKE_C_COMPILER=qcc -DCMAKE_CXX_COMPILER=q++ ..
 make -j $(nproc)
+```
+Without pre installed libuv
+```shell
+cmake -DCMAKE_TOOLCHAIN_FILE=../qnx.cmake -DCMAKE_C_COMPILER=qcc -DCMAKE_CXX_COMPILER=q++ ..
+make -j $(nproc)
+```
+
+## Read imported symbols
+```shell
+objdump -T ./build/LibuvLearn
+```
+
+## Analyze call graph
+### Install radare2
+```shell
+git clone https://github.com/radareorg/radare2
+radare2/sys/install.sh
+```
+### Create call graph
+```shell
+cd build
+radare2 -A -c 'agCd > ./b.dot' -q ./LibuvLearn
+```
+### Review Call graph
+Use xdot
+```shell
+xdot ./b.dot
+```
+
+Convert to SVG
+```shell
+dot -Tsvg b.dot -o b.svg
 ```

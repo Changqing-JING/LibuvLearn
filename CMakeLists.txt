@@ -4,6 +4,15 @@ project(LibuvLearn)
 aux_source_directory(src soureFiles)
 add_executable(${PROJECT_NAME} ${soureFiles})
 
+if(UNIX)
+
+        set(cleanLinkFlag "-fdata-sections -ffunction-sections -Wl,--gc-sections")
+
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${cleanLinkFlag}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${cleanLinkFlag}")
+
+    endif()
+
 if(DEFINED USE_PRE_INSTALLED_LIBUV)
 
 if(WIN32)
@@ -20,15 +29,8 @@ target_link_libraries(${PROJECT_NAME} uv)
 endif()
 
 else()
-    add_definitions(-DBUILDING_UV_SHARED=0)
-    if(UNIX)
-
-        set(cleanLinkFlag "-ffunction-sections -Wl,--gc-sections")
-
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${cleanLinkFlag}")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${cleanLinkFlag}")
-
-    endif()
+add_definitions(-DBUILDING_UV_SHARED=0)
+    
 
 add_subdirectory(libuv)
 target_link_libraries(${PROJECT_NAME} uv_a)
